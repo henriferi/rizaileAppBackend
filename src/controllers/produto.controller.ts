@@ -19,6 +19,35 @@ export const listarProdutos = async (req: Request, res: Response): Promise<void>
   }
 }
 
+//Busca um único produto pelo ID
+export const detalhesProduto = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params
+
+  const idConvertido = Number(id)
+
+  if (isNaN(idConvertido)) {
+    res.status(400).json({ error: 'ID inválido' })
+    return
+  }
+
+  try {
+    const produto = await prisma.produto.findUnique({
+      where: { id: idConvertido },
+    })
+
+    if (!produto) {
+      res.status(404).json({ error: 'Produto não encontrado' })
+      return
+    }
+
+    res.status(200).json(produto)
+  } catch (error) {
+    console.error('Erro ao buscar produto:', error)
+    res.status(500).json({ error: 'Erro interno no servidor' })
+  }
+}
+
+
 // Cria um novo produto
 export const criarProduto = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -95,7 +124,7 @@ export const deletarProduto = async (req: Request, res: Response): Promise<void>
     })
 
     res.status(204).send()
-  } catch(error) {
+  } catch (error) {
     console.error("Erro ao apagar produto", error)
     res.status(500).json({ error: "Erro ao deletar produto" })
   }
