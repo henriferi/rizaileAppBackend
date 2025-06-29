@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 const prisma = new PrismaClient()
 const SECRET = process.env.JWT_SECRET as string
 
-export const registrarAdmin = async (req: Request, res: Response): Promise<void> => {
+/* export const registrarAdmin = async (req: Request, res: Response): Promise<void> => {
   const { email, senha } = req.body
 
   try {
@@ -25,7 +25,7 @@ export const registrarAdmin = async (req: Request, res: Response): Promise<void>
     console.error(error)
     res.status(500).json({ error: 'Erro ao criar admin' })
   }
-}
+} */
 
 export const loginAdmin = async (req: Request, res: Response): Promise<void> => {
   const { email, senha } = req.body
